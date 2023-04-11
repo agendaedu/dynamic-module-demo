@@ -1,0 +1,9 @@
+p {
+  margin: 10px 250px;
+}
+
+@media (max-width: 1024px) {
+  p {
+    margin: 10px 25px;
+  }
+}
