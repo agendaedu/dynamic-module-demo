@@ -5,19 +5,22 @@ import './styles.css';
 
 /**
  * Aqui está toda a lógica de renderização do módulo dinâmico. Nesse caso, os passos seriam:
- *   1. Buscar os dados do usuário que deseja utilizar o módulo (linhas 15 até 23);
- *   2. Renderizar informações do usuário, seja ele um responsável ou estudante (linhas 29 até 36).
+ *   1. Buscar os dados do usuário que deseja utilizar o módulo (feito no useEffect);
+ *   2. Renderizar informações do usuário, seja ele um responsável ou estudante (feito no return do DynamicModule).
  *
  * A lógica implementada aqui é somente um exemplo, uma vez que o usuário foi autenticado e o seu
  * módulo foi chamado você poderá fazer tudo aquilo que precisar.
  */
 export default function DynamicModule() {
+  const AE_API_URL = process.env.NODE_ENV === 'production' ? 'https://api.agendaedu.com'
+                                                           : 'http://api.agendaedu.localhost:3000';
+
   let [searchParams] = useSearchParams();
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     async function fetchCurrentUser() {
-      const response = await fetch('http://api.agendaedu.localhost:3000/v2/me', {
+      const response = await fetch(`${AE_API_URL}/v2/me`, {
         headers: {
           Authorization: `Bearer ${searchParams.get('token')}`
         }
@@ -27,7 +30,7 @@ export default function DynamicModule() {
     }
 
     if (!currentUser) fetchCurrentUser();
-  }, [currentUser, searchParams]);
+  }, [currentUser, searchParams, AE_API_URL]);
 
   return (
     <>
