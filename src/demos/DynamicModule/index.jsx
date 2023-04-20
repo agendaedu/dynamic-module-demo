@@ -12,7 +12,7 @@ import './styles.css';
  * módulo foi chamado você poderá fazer tudo aquilo que precisar.
  */
 export default function DynamicModule() {
-  const AE_API_URL = process.env.NODE_ENV === 'production' ? 'https://staging05-api.agendaedu.dev'
+  const AE_API_URL = process.env.NODE_ENV === 'production' ? 'https://api.agendaedu.com'
                                                            : 'http://api.agendaedu.localhost:3000';
 
   let [searchParams] = useSearchParams();
