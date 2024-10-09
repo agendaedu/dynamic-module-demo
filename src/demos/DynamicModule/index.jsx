@@ -21,12 +21,15 @@ export default function DynamicModule() {
     const token = searchParams.get('token');
     if (token) {
       const decodedToken = jwtDecode(token);
-      setApiUrl(decodedToken.iss === 'sandbox.auth_server'
-        ? 'https://sandbox-api.agendaedu.dev'
-        : process.env.NODE_ENV === 'production'
-          ? 'https://api.agendaedu.com'
-          : 'http://api.agendaedu.localhost:3000'
-      );
+      const issuer = decodedToken.iss;
+
+      if (issuer.includes('production')) {
+        setApiUrl('https://api.agendaedu.com');
+      } else if (issuer.includes('sandbox')) {
+        setApiUrl('https://sandbox-api.agendaedu.dev');
+      } else {
+        setApiUrl('http://api.agendaedu.localhost:3000');
+      }
     }
   }, [searchParams]);
 
